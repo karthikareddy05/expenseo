@@ -33,3 +33,39 @@ button {
   margin: 8px 0;
   border-radius: 5px;
 }
+/* DARK MODE */
+.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark input,
+.dark select {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #555;
+}
+
+.dark button {
+  background-color: #2c2c2c;
+  color: white;
+}
+
+.dark .item {
+  background-color: #2b2b2b;
+}
+
+.toggle-btn {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.toggle-btn:hover {
+  background: #444;
+}

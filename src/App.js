@@ -5,6 +5,7 @@ import ExpenseChart from "./components/ExpenseChart";
 import "./App.css";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
   const [salary, setSalary] = useState("");
   const [expenses, setExpenses] = useState([]);
 
@@ -39,8 +40,13 @@ function App() {
   const remaining = salary - totalSpent;
 
   return (
-    <div className="container">
+    <div className={darkMode ? "container dark" : "container"}>
+
       <h2>💰 Expense Tracker</h2>
+      <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
+  {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+</button>
+
 
       
 
