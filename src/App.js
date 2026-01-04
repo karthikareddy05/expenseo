@@ -1,63 +1,36 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 import ExpenseChart from "./components/ExpenseChart";
 import "./App.css";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [salary, setSalary] = useState("");
   const [expenses, setExpenses] = useState([]);
+  const [salary, setSalary] = useState(0);
 
-  // Load data
-  useEffect(() => {
-    const savedExpenses = JSON.parse(localStorage.getItem("expenses"));
-    const savedSalary = localStorage.getItem("salary");
-
-    if (savedExpenses) setExpenses(savedExpenses);
-    if (savedSalary) setSalary(savedSalary);
-  }, []);
-
-  // Save data
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-    localStorage.setItem("salary", salary);
-  }, [expenses, salary]);
-
+  // Add expense
   const addExpense = (expense) => {
     setExpenses([...expenses, expense]);
   };
 
-  const deleteExpense = (id) => {
-    setExpenses(expenses.filter((e) => e.id !== id));
-  };
-
-  const totalSpent = expenses.reduce(
-    (total, item) => total + item.amount,
-    0
-  );
-
-  const remaining = salary - totalSpent;
+  const spent = expenses.reduce((total, e) => total + e.amount, 0);
+  const remaining = salary - spent;
 
   return (
-    <div className={darkMode ? "container dark" : "container"}>
+    <div className="app">
+      <h1>💰 Expense Tracker</h1>
 
-      <h2>💰 Expense Tracker</h2>
-      <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
-  {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-</button>
+      <div className="summary">
+        <p><b>Salary:</b> ₹{salary}</p>
+        <p><b>Spent:</b> ₹{spent}</p>
+        <p><b>Remaining:</b> ₹{remaining}</p>
+      </div>
 
+      <ExpenseForm addExpense={addExpense} setSalary={setSalary} />
 
-      
+      <ExpenseList expenses={expenses} />
 
-      <h3>Salary: ₹{salary || 0}</h3>
-      <h3>Spent: ₹{totalSpent}</h3>
-      <h3>Remaining: ₹{remaining >= 0 ? remaining : 0}</h3>
-
-      <ExpenseForm addExpense={addExpense} />
-      <ExpenseList expenses={expenses} deleteExpense={deleteExpense} />
-      <ExpenseChart expenses={expenses} />
-
+      {expenses.length > 0 && <ExpenseChart expenses={expenses} />}
     </div>
   );
 }

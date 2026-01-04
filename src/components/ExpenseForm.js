@@ -1,26 +1,45 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-function ExpenseForm({ addExpense }) {
+function ExpenseForm({ addExpense, setSalary }) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Shopping");
+  const [salaryInput, setSalaryInput] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleAddExpense = () => {
     if (!amount) return;
 
     addExpense({
       id: Date.now(),
+      title: category,
       amount: Number(amount),
-      category,
     });
 
     setAmount("");
-    setCategory("Shopping");
+  };
+
+  const handleSetSalary = () => {
+    if (!salaryInput) return;
+    setSalary(Number(salaryInput));
+    setSalaryInput("");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="form">
+      {/* SALARY INPUT */}
+      <input
+        type="number"
+        placeholder="Enter Salary"
+        value={salaryInput}
+        onChange={(e) => setSalaryInput(e.target.value)}
+      />
+
+      <button onClick={handleSetSalary}>
+        Set Salary
+      </button>
+
+      <hr />
+
+      {/* EXPENSE INPUT */}
       <input
         type="number"
         placeholder="Amount"
@@ -28,19 +47,18 @@ function ExpenseForm({ addExpense }) {
         onChange={(e) => setAmount(e.target.value)}
       />
 
-      <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      >
+      <select value={category} onChange={(e) => setCategory(e.target.value)}>
         <option>Shopping</option>
-        <option>Grocery</option>
-        <option>Bills</option>
         <option>Food</option>
+        <option>Bills</option>
         <option>Travel</option>
+        <option>Grocery</option>
       </select>
 
-      <button>Add Expense</button>
-    </form>
+      <button onClick={handleAddExpense}>
+        Add Expense
+      </button>
+    </div>
   );
 }
 
